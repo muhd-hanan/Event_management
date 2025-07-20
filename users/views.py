@@ -31,16 +31,21 @@ def login(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             auth_login(request, user)
-            return HttpResponseRedirect(reverse('users:index'))
+
+            # ✅ Redirect based on role
+            if user.is_superuser or user.is_manager:
+                return redirect('manager:index')  # use namespace
+            else:
+                return redirect('users:index')
 
         else:
             context = {
-                "error" : True,
+                "error": True,
                 "message": "Invalid Email or Password"
             }
             return render(request, 'login.html', context=context)
-    else:         
-        return render(request, 'login.html')
+
+    return render(request, 'login.html')
     
 
 
