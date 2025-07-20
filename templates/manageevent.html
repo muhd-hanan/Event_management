@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>manage events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="w-full bg-gray-800 shadow py-3 flex items-center justify-center relative">
+
+        <!-- Back Button -->
+        <a href="#" class="absolute left-3 sm:left-10 flex items-center text-purple-400 hover:text-purple-300 transition">
+            <img src="./images/arrow-left.svg" class="w-5" alt="">
+        </a>
+
+        <!-- Page Heading -->
+        <h1 class="text-lg sm:text-2xl font-semibold text-gray-100">
+           Manage Events
+        </h1>
+    </header>
+    <section class="min-h-screen bg-gray-900 text-gray-100 p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Heading -->
+
+            <h2 class="text-xl text-white font-semibold">My Events</h2>
+
+
+
+
+
+
+            <!-- Event Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+                {% for event in events %}
+                <div class="bg-gray-800 rounded-lg p-5 shadow hover:shadow-lg transition relative">
+                    <img src="{{ event.img.url }}" alt="" class="w-full mb-3">
+                    <span class="bg-purple-800 text-white text-xs px-2 py-1 rounded-full absolute right-6 top-6">{{ event.type }}</span>
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-semibold text-white" >{{ event.name }}</h3>
+                       
+                    </div>
+                    
+                    <div class="text-sm text-gray-400 space-y-1 mb-3 mt-4">
+                        <div class="flex items-center gap-2">
+                            <p class="font-semibold">Hosted by:</p><span>{{ event.user }}  </span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="far fa-calendar-alt mr-2 text-purple-600"></i><span>{{ event.date }} at {{ event.time }} </span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                             <i class="fas fa-map-marker-alt mr-2 text-purple-600"></i><span>{{ event.venue }}</span>
+                        </div>
+                         <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-user-group  text-purple-600"></i></i><span>{{ event.capacity }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                           <p>{{ event.description  }}</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center mt-4">
+                        
+                        <div class="flex gap-4">
+                            <a href="{% url 'users:singleeventstatus' event.id %}"> <button
+                                class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-3 py-1 rounded-2xl">Status</button>
+                         </a>
+                               <a href="{% url 'users:editevent' event.id %}"> <button
+                                class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-3 py-1 rounded-2xl">Edit</button></a>
+                           <a href="{% url 'users:deleteevent' event.id %}"> <button
+                                class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-3 py-1 rounded-2xl">Delete</button>
+                      </a>  </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+                
+
+               
+               
+
+            </div>
+        </div>
+    </section>
+
+
+    
+
+</body>
+
+</html>

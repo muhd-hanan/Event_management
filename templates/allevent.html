@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class=" bg-gray-900">
+
+    <header class="w-full bg-gray-800 shadow py-3 flex items-center justify-center relative">
+
+        <!-- Back Button -->
+        <a href="#"
+            class="absolute left-3 sm:left-10 flex items-center text-purple-400 hover:text-purple-300 transition">
+            <img src="./images/arrow-left.svg" class="w-5" alt="">
+        </a>
+
+        <!-- Page Heading -->
+        <h1 class="text-lg sm:text-2xl font-semibold text-gray-100">
+            All Events
+        </h1>
+    </header>
+
+
+    <div class="wrapper flex justify-center  bg-gray-900 pt-8">
+       <div class="border-purple-300 border-2 w-[450px] rounded-3xl">
+         <form method="GET" class="flex justify-between">
+            <input type="text" name="q" placeholder="Search events..."
+                class="px-4 py-2 rounded-md w-full sm:w-1/3 bg-transparent text-white  outline-none focus:outline-none focus:ring-0 "
+                value="{{ request.GET.q }}" >
+                <button type="submit"><i class="fa-solid fa-magnifying-glass text-purple-600 pr-4"></i></button>
+                
+        </form>
+        
+
+       </div>
+    </div>
+
+
+
+    <section class="min-h-screen bg-gray-900 pt-8 text-gray-100">
+        <div class="wrapper">
+            <div class="min-h-screen bg-gray-900 p-8">
+
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {% if events %}
+                    <!-- Event Card (1) -->
+                    {% for event in events %}
+                    <div class="event-card w-[300px] bg-gray-800 shadow-lg rounded-lg overflow-hidden pb-5">
+                        <div class="relative">
+                            <img src="{{ event.img.url }}" class="w-full h-[200px] object-cover" alt="Sports">
+                            <span
+                                class="bg-purple-600 text-white text-xs py-1 px-3 font-semibold rounded-2xl absolute top-4 right-4">
+                                {{ event.type }}</span>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-lg font-semibold text-white">{{ event.name }}</h4>
+                            <p class="text-[14px] ">Hosted by: <span>{{ event.user.first_name }}</by:span>
+                            </p>
+                            <div class="flex items-center gap-2 mt-2 text-sm text-gray-400">
+                                <img src="{% static './images/calendar (2).svg' %}" class="w-4" alt="">
+                               <span 
+    class="event-datetime" 
+    data-date="{{ event.date|date:'Y-m-d' }}" 
+    data-time="{{ event.time|time:'H:i' }}">
+    {{ event.date }} at {{ event.time }}
+</span>
+                            </div>
+                            <div class="flex items-center gap-2 mt-1 text-sm text-gray-400">
+                                <img src="{% static './images/map-pin (3).svg' %}" class="w-4" alt="">
+                                <span> {{ event.venue }}</span>
+                            </div>
+                            <p class=" mt-3 text-sm text-gray-300">{{ event.description|truncatewords:5 }}</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-sm text-gray-400">{{ event.total_registered }}/ {{ event.capacity }} registered</span>
+                                <a href="{% url 'users:singleevent' event.id %}"
+                                    class="text-sm border border-purple-500 text-purple-400 px-3 py-1 rounded-md hover:bg-purple-600 hover:text-white transition">More
+                                    Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% else %}
+                   <div class="flex justify-center items-center">
+                     <p class="text-gray-400">No events matched your search.</p>
+                   </div>
+                    {% endif %}
+
+                    <!-- 🔁 Duplicate this card for more events -->
+
+
+
+                    <!-- Copy-paste the same <div class="w-full bg-gray-800 ...">...</div> -->
+
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dateTimeSpans = document.querySelectorAll('.event-datetime');
+
+        dateTimeSpans.forEach(span => {
+            const date = span.getAttribute('data-date');
+            const time = span.getAttribute('data-time');
+
+            if (date && time) {
+                const eventDateTime = new Date(`${date}T${time}`);
+                const now = new Date();
+
+                if (eventDateTime < now) {
+                    span.classList.add('text-red-500');
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
+
+<!-- <section class="h-screen bg-gradient-to-r from-fuchsia-500 to-purple-700"></section> -->

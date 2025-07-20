@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Event</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-gray-200">
+
+    <header class="w-full bg-gray-800 shadow py-3 flex items-center justify-center relative">
+
+        <!-- Back Button -->
+        <a href="#" class="absolute left-3 sm:left-10 flex items-center text-purple-400 hover:text-purple-300 transition">
+            <img src="./images/arrow-left.svg" class="w-5" alt="">
+        </a>
+
+        <!-- Page Heading -->
+        <h1 class="text-lg sm:text-2xl font-semibold text-gray-100">
+            Create Event
+        </h1>
+    </header>
+
+    <div class="max-w-4xl mx-auto bg-gray-800 p-6 sm:p-10 rounded-xl shadow-md mt-10">
+       <form class="space-y-6" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+            <div class="grid sm:grid-cols-2 gap-6">
+             
+                <div>
+                    <label class="block text-gray-300 font-medium mb-1">Event Name</label>
+                    <input name="eventname" type="text" placeholder="Enter event name"value="{{ event.name|default:'' }}"
+                        class="w-full border border-gray-600 bg-gray-900 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-100 placeholder-gray-400" />
+                </div>
+
+        
+                <div>
+                    <label class="block text-gray-300 font-medium mb-1">Event Type</label>
+                    <input name="eventtype" type="text" placeholder="Enter event type"value="{{ event.type|default:'' }}"
+                        class="w-full border border-gray-600 bg-gray-900 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-100 placeholder-gray-400" />
+                </div>
+            </div>
+            <div>
+                    <label class="block text-gray-300 font-medium mb-1" >Upload image</label>
+                    <input name="Image" type="file" placeholder="" 
+                        class="border border-gray-600 bg-gray-900 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-100 placeholder-gray-400" />
+                </div>
+
+        
+            <div>
+                <label class="block text-gray-300 font-medium mb-1">Description</label>
+                <textarea name="Description" rows="4" placeholder="Describe your event"
+                    class="w-full border border-gray-600 bg-gray-900 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-100 placeholder-gray-400">{{ event.description|default:'' }}</textarea>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-6">
+        
+                <div>
+                    <label class="block text-gray-300 font-medium mb-1">Date</label>
+                    <input name="date" type="date"value="{{ event.date|date:'Y-m-d' }}"
+                        class="w-full border border-gray-600 bg-gray-900 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-100" />
+                </div>
+
+
+                <div>
+                    <label class="block text-gray-300 font-medium mb-1">Time</label>
+                    <input name="time" type="time"  value="{{ event.time|time:'H:i' }}"
+                        class="w-full border border-gray-600 bg-gray-900 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-100" />
+                </div>
+                <div>
+                    <label class="block text-gray-300 font-medium mb-1">Venue</label>
+                    <input name="venue" type="text" placeholder="Event venue" value="{{ event.venue|default:'' }}"
+                        class="w-full border border-gray-600 bg-gray-900 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-100 placeholder-gray-400" />
+                </div>
+
+                
+                <div>
+                    <label class="block text-gray-300 font-medium mb-1">Max Capacity</label>
+                    <input name="capacity" type="number" placeholder="Maximum attendees"value="{{ event.capacity|default:'' }}"
+                        class="w-full border border-gray-600 bg-gray-900 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-100 placeholder-gray-400" />
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit"
+                    class="px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition duration-200">
+                
+                      {% if edit %}Update Event{% else %}Create Event{% endif %}
+                </button>
+            </div>
+        </form>
+
+        
+        
+    </div>
+
+</body>
+
+</html>

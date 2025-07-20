@@ -1,0 +1,30 @@
+.wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+
+
+.hero {
+  background: url('/static/images/bg1.png') no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+
+.header {
+    border: 2x solid white;
+    backdrop-filter: blur(5px);
+
+}
+
+.loginbg {
+  background: url('/static/images/loginbg.png ') no-repeat center;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.loginbgbl {
+    border: 2x solid white;
+    backdrop-filter: blur(5px);
+
+}

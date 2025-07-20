@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+       {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <section class="loginbg min-h-screen flex items-center justify-center px-4 py-8">
+        <div
+            class="loginbgbl w-full max-w-4xl lg:h-[80vh]   rounded-lg shadow-lg flex flex-col lg:flex-row overflow-hidden">
+
+            <!-- Left side -->
+            <div class="w-full lg:w-1/2 p-8 flex items-center justify-center ">
+                <div class="text-center lg:text-left">
+                    <h4 class="text-white text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">Welcome Back!</h4>
+                    <p class="text-white opacity-80 text-sm sm:text-base">Ready to explore new events? Log in to
+                        continue.</p>
+                </div>
+            </div>
+
+            <!-- Right side -->
+            <div class="w-full lg:w-1/2 bg-black/70 px-6 sm:px-10 py-10">
+                <h3 class="text-xl sm:text-2xl font-semibold text-white mb-8 text-center lg:text-left  lg:mt-28">Login
+                </h3>
+
+                <form class="space-y-6" method="POST">
+                    {% csrf_token %}
+                    <input name="email" type="email" placeholder="Email"
+                        class="w-full py-2 border-b-2 border-white bg-transparent text-white placeholder-white placeholder-opacity-80 focus:outline-none"
+                        required />
+                    <input name="password" type="password" placeholder="Password"
+                        class="w-full py-2 border-b-2 border-white bg-transparent text-white placeholder-white placeholder-opacity-80 focus:outline-none"
+                        required />
+
+                    <button type="submit"
+                        class="w-full py-3 bg-purple-800 text-white rounded-md hover:bg-purple-900 transition duration-300">
+                        Login
+                    </button>
+                </form>
+               {% if error %}
+                <p class="text-[14px] text-red-500 mb-6">{{message}}</p>
+                {% endif %}
+
+                <div class="mt-6 text-center">
+                    <p class="text-white text-sm sm:text-base">
+                        Don't have an account?
+                        <a href="{% url 'users:register' %}" class="text-purple-400 font-semibold hover:underline">Register here</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+
+</html>

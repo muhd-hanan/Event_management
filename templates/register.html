@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+       {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <section class="loginbg min-h-screen flex items-center justify-center px-4 py-8">
+        <div
+            class="loginbgbl w-full max-w-4xl lg:h-[80vh]    rounded-lg shadow-lg flex flex-col lg:flex-row overflow-hidden">
+
+            <!-- Left Side (Text) -->
+            <div class="w-full lg:w-1/2 p-8 flex items-center justify-center ">
+                <div>
+                    <h4 class="text-white text-2xl lg:text-4xl font-bold mb-4">Start Your Journey with Us</h4>
+                    <p class="text-white opacity-80 text-md">Join thousands discovering exciting events every day.</p>
+                </div>
+            </div>
+
+            <!-- Right Side (Form) -->
+            <div class="w-full lg:w-1/2 bg-black/70 px-6 sm:px-10 py-10">
+                <h3 class="text-2xl font-semibold text-white mb-8   lg:mt-16">Register</h3>
+
+                <form method="POST" class="space-y-6">
+                    {% csrf_token %}
+                    <input name="first_name" type="text" placeholder="First name"
+                        class="w-full border-b-2 border-white bg-transparent text-white placeholder-white placeholder-opacity-80 py-2 focus:outline-none"
+                        required />
+
+                    <input name="last_name" type="text" placeholder="Last name"
+                        class="w-full border-b-2 border-white bg-transparent text-white placeholder-white placeholder-opacity-80 py-2 focus:outline-none"
+                        required />
+
+                    <input name="email" type="email" placeholder="Email"
+                        class="w-full border-b-2 border-white bg-transparent text-white placeholder-white placeholder-opacity-80 py-2 focus:outline-none"
+                        required />
+                    <input name="password" type="password" placeholder="Password"
+                        class="w-full border-b-2 border-white bg-transparent text-white placeholder-white placeholder-opacity-80 py-2 focus:outline-none"
+                        required />
+
+                    <button type="submit"
+                        class="w-full py-3 bg-purple-800 text-white rounded-md hover:bg-purple-900 transition duration-300">
+                        Register
+                    </button>
+                </form>
+                {% if error %}
+                <p class="text-[14px] text-red-500 mb-2">{{message}}</p>
+                {% endif %}
+                <div class="mt-6 text-center">
+                    <p class="text-white">
+                        Already have an account?
+                        <a href="{% url 'users:login' %}" class="text-purple-400 font-semibold hover:underline">Login
+                            here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+    <section class="hero min-h-screen ">
+        <header class="h-[10vh] flex items-center px-6">
+            <div class="flex justify-between items-center w-full">
+                <div>
+                    <img src="{% static './images/logo.png' %}" class="w-32" alt="Logo">
+                </div>
+                <nav class="hidden md:block mr-12">
+                    <ul class="flex gap-8">
+                        <li class="font-semibold text-white hover:text-purple-600 cursor-pointer">Home</li>
+                       <a href="{% url 'users:manageevent' %}"> <li class="font-semibold text-white hover:text-purple-600 cursor-pointer">Host</li></a>
+                        <a href="{% url 'users:allevent' %}"><li class="font-semibold text-white hover:text-purple-600 cursor-pointer">Events</li></a>
+                        <a href="{% url 'users:registeredevent' %}"><li class="font-semibold text-white hover:text-purple-600 cursor-pointer">Registered events</li></a>
+                       <a href="{% url 'users:login' %}"> <li class="font-semibold text-white hover:text-purple-600 cursor-pointer">Logout</li></a>
+                    </ul>
+                </nav>
+                <div class="md:hidden">
+                    <button class="text-white">☰</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="text-center mt-36 px-4">
+            <h2 class="text-4xl md:text-6xl font-bold text-white">Discover Amazing <span
+                    class="text-[#883acc]">Events</span></h2>
+            <p class="text-white mt-4 text-[15px] md:text-xl font-medium max-w-2xl mx-auto">
+                Join thousands of people discovering and attending incredible events in your city and beyond
+            </p>
+            <div class="flex flex-wrap justify-center gap-8 pt-14">
+                <a href="{% url 'users:allevent' %}"
+                    class="border-2 border-white text-white px-6 py-2 rounded-3xl backdrop-blur-lg font-semibold hover:bg-white hover:text-black transition">
+                    Browse Events</a>
+                <a href="{% url 'users:createevent' %}"
+                    class="border-2 border-white text-white px-6 py-2 rounded-3xl backdrop-blur-lg font-semibold hover:bg-white hover:text-black transition">
+                    Create New Event</a>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="min-h-screen bg-gray-900 pt-8 text-gray-100">
+        <div class="wrapper">
+            <div class="text-center">
+                <h3 class="text-2xl sm:text-3xl font-bold text-purple-400">Upcoming Events</h3>
+                <p class="opacity-70 text-gray-300">Don't miss out on these amazing upcoming events</p>
+            </div>
+
+            <div  id="event-container" class="w-[90%] mx-auto flex flex-wrap justify-center gap-8 mt-10">
+
+                <!-- Event Card -->
+                    {% for event in events %}
+                    <div class="event-card w-[300px] bg-gray-800 shadow-lg rounded-lg overflow-hidden pb-5">
+                        <div class="relative">
+                            <img src="{{ event.img.url }}" class="w-full h-[200px] object-cover" alt="Sports">
+                            <span
+                                class="bg-purple-600 text-white text-xs py-1 px-3 font-semibold rounded-2xl absolute top-4 right-4"> {{ event.type }}</span>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-lg font-semibold text-white">{{ event.name }}</h4>
+                            <p class="text-[14px] ">Hosted by: <span >{{ event.user.first_name }}</by:span> </p>
+                            <div class="flex items-center gap-2 mt-2 text-sm text-gray-400">
+                                <img src="{% static './images/calendar (2).svg' %}" class="w-4" alt="">
+                               <span 
+    class="event-datetime" 
+    data-date="{{ event.date|date:'Y-m-d' }}" 
+    data-time="{{ event.time|time:'H:i' }}">
+    {{ event.date }} at {{ event.time }}
+</span>
+                            </div>
+                            <div class="flex items-center gap-2 mt-1 text-sm text-gray-400">
+                                <img src="{% static './images/map-pin (3).svg' %}" class="w-4" alt="">
+                                <span> {{ event.venue }}</span>
+                            </div>
+                            <p class=" mt-3 text-sm text-gray-300">{{ event.description|truncatewords:5 }}</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-sm text-gray-400">{{ event.registration_count }}/ {{ event.capacity }} registered</span>
+                                <a href="{% url 'users:singleevent' event.id %}"
+                                    class="text-sm border border-purple-500 text-purple-400 px-3 py-1 rounded-md hover:bg-purple-600 hover:text-white transition">More
+                                    Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                 
+                <!-- Copy the same card structure for other events as needed -->
+
+            </div>
+           <div class="flex justify-center mt-10">
+             <a class="text-center bg-purple-800 w-32 py-2 px-4 shadow-lg rounded-3xl " href="{% url 'users:allevent' %} ">All Events</a>
+           </div>
+        </div>
+    </section>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const allCards = document.querySelectorAll('.event-card');
+    allCards.forEach((card, index) => {
+      if (index >= 3) {
+        card.style.display = 'none';
+      }
+    });
+  });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dateTimeSpans = document.querySelectorAll('.event-datetime');
+
+        dateTimeSpans.forEach(span => {
+            const date = span.getAttribute('data-date');
+            const time = span.getAttribute('data-time');
+
+            if (date && time) {
+                const eventDateTime = new Date(`${date}T${time}`);
+                const now = new Date();
+
+                if (eventDateTime < now) {
+                    span.classList.add('text-red-500');
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+</body>
+
+</html>
+
+<!-- <section class="h-screen bg-gradient-to-r from-fuchsia-500 to-purple-700"></section> -->

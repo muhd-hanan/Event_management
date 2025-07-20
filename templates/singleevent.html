@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single event</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        },
+                        dark: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Back Link -->
+        <a href="#"
+            class="inline-flex items-center text-purple-600 hover:text-purple-600 transition-colors duration-200 mb-6">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Events
+        </a>
+
+        <!-- Event Header -->
+        <div class="flex flex-col lg:flex-row gap-8 mb-8">
+            <!-- Event Image -->
+            <div class="lg:flex-1">
+                <div class="rounded-xl overflow-hidden shadow-lg">
+                    <img src="{{ event.img.url }}" alt="Digital Marketing Masterclass"
+                        class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- Event Info -->
+            <div class="lg:flex-1">
+                <span
+                    class="inline-block bg-purple-600/30 text-purple-600 px-3 py-1 rounded-full text-sm font-medium mb-4">
+                    {{ event.type }}
+                </span>
+
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{{ event.name }}</h1>
+
+                <div class="flex items-center text-gray-400 mb-4">
+                    <i class="far fa-calendar-alt mr-2 text-purple-600"></i>
+                    <span class="event-datetime" data-date="{{ event.date|date:'Y-m-d' }}"
+                        data-time="{{ event.time|time:'H:i' }}">
+                        {{ event.date }} at {{ event.time }}
+                    </span>
+                </div>
+
+
+
+                <div class="flex items-center text-gray-400 mb-4">
+                    <i class="fas fa-map-marker-alt mr-2 text-purple-600"></i>
+                    {{ event.venue }}
+                </div>
+
+                <div class="flex items-center text-gray-400 text-sm mb-6">
+                    <i class="fas fa-user-tie mr-2 text-purple-600"></i>
+                    Organized by {{ event.user.first_name }}
+                </div>
+
+                <div class="text-sm font-bold text-gray-400 mb-6"><i
+                        class="fa-solid fa-user-group mr-1  text-purple-600"></i></i>  {{ total_registered }} registered / {{ event.capacity}} capacity
+                    
+                </div>
+
+
+                {% if is_registered %}
+                <div class="flex gap-4">
+                    <span class="bg-green-600 text-white px-4 py-2 rounded-md">Registered ✓</span>
+
+                    <form id="unregister-form" action="{% url 'users:unregister_event' event.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
+                            Remove Registration
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                <form id="register-form" action="{% url 'users:register_event' event.id %}" method="post">
+                    {% csrf_token %}
+                    <button
+                        class="bg-purple-600 hover:bg-purple-800 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:-translate-y-1 shadow-lg hover:shadow-purple-600/20">
+                        Register Now
+                    </button>
+                </form>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- Event Description -->
+        <div class="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 class="text-2xl font-bold text-white mb-4">About This Event</h2>
+            <p class="text-gray-300 leading-relaxed">{{ event.description }}
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const registerForm = document.getElementById('register-form');
+        const unregisterForm = document.getElementById('unregister-form');
+
+        if (registerForm) {
+            registerForm.addEventListener('submit', function () {
+                alert("Successfully registered!");
+            });
+        }
+
+        if (unregisterForm) {
+            unregisterForm.addEventListener('submit', function () {
+                alert("Registration removed.");
+            });
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dateTimeSpans = document.querySelectorAll('.event-datetime');
+
+            dateTimeSpans.forEach(span => {
+                const date = span.getAttribute('data-date');
+                const time = span.getAttribute('data-time');
+
+                if (date && time) {
+                    const eventDateTime = new Date(`${date}T${time}`);
+                    const now = new Date();
+
+                    if (eventDateTime < now) {
+                        span.classList.add('text-red-500');
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
