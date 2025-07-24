@@ -7,6 +7,7 @@
     <title>Create Event</title>
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body class="bg-gray-900 text-gray-200">
@@ -14,8 +15,9 @@
     <header class="w-full bg-gray-800 shadow py-3 flex items-center justify-center relative">
 
         <!-- Back Button -->
-        <a href="#" class="absolute left-3 sm:left-10 flex items-center text-purple-400 hover:text-purple-300 transition">
-            <img src="./images/arrow-left.svg" class="w-5" alt="">
+        <a href="{% url 'users:index'  %}"
+            class="absolute left-3 sm:left-10 flex items-center text-purple-400 hover:text-purple-300 transition">
+           <i class="fa-solid fa-arrow-left text-purple-500"></i></i>
         </a>
 
         <!-- Page Heading -->

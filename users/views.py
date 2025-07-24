@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.db.models import Count
-
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -253,3 +253,29 @@ def delete_registration(request, event_id, user_id):
 
     Registration.objects.filter(event=event, user_id=user_id).delete()
     return redirect('users:singleeventstatus', id=event_id)
+
+
+@login_required
+def send_reminder(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+
+    # Only the event creator can send reminder
+    if request.user != event.user:
+        messages.error(request, "You are not authorized to send reminders for this event.")
+        return redirect('users:index')
+
+    registrations = Registration.objects.filter(event=event).select_related('user')
+
+    subject = f"Reminder: Upcoming Event - {event.name}"
+    message = f"Dear Attendee,\n\nThis is a reminder for the event \"{event.name}\" happening on {event.date} at {event.time}.\n\nVenue: {event.venue}\n\nSee you there!\n\nRegards,\nEvent Team"
+    from_email = 'your_email@gmail.com'
+
+    recipient_list = [reg.user.email for reg in registrations]
+
+    if recipient_list:
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        messages.success(request, "Reminder email sent successfully!")
+    else:
+        messages.warning(request, "No users registered for this event.")
+
+    return redirect('users:singleeventstatus', id=event.id)

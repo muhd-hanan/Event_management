@@ -26,6 +26,7 @@ urlpatterns = [
 
       path('unregisterevent/<int:id>/', views.unregister_event, name='unregister_event'),
 
+path('event/<int:event_id>/send_reminder/', views.send_reminder, name='send_reminder'),
 
 
 
