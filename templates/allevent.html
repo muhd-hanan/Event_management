@@ -15,13 +15,13 @@
 
     <header class="w-full bg-gray-800 shadow py-3 flex items-center justify-center relative">
 
-        <!-- Back Button -->
+    
         <a href="{% url 'users:index'  %}"
             class="absolute left-3 sm:left-10 flex items-center text-purple-400 hover:text-purple-300 transition">
            <i class="fa-solid fa-arrow-left text-purple-500"></i></i>
         </a>
 
-        <!-- Page Heading -->
+        
         <h1 class="text-lg sm:text-2xl font-semibold text-gray-100">
             All Events
         </h1>
@@ -51,7 +51,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {% if events %}
-                    <!-- Event Card (1) -->
+                   
                     {% for event in events %}
                     <div class="event-card w-[300px] bg-gray-800 shadow-lg rounded-lg overflow-hidden pb-5">
                         <div class="relative">
@@ -93,11 +93,7 @@
                     </div>
                     {% endif %}
 
-                    <!-- 🔁 Duplicate this card for more events -->
-
-
-
-                    <!-- Copy-paste the same <div class="w-full bg-gray-800 ...">...</div> -->
+                   
 
                 </div>
             </div>
@@ -136,4 +132,3 @@
 
 </html>
 
-<!-- <section class="h-screen bg-gradient-to-r from-fuchsia-500 to-purple-700"></section> -->

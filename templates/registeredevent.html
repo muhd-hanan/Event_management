@@ -14,13 +14,13 @@
 
     <header class="w-full bg-gray-800 shadow py-3 flex items-center justify-center relative">
 
-        <!-- Back Button -->
+
         <a href="{% url 'users:index'  %}"
             class="absolute left-3 sm:left-10 flex items-center text-purple-400 hover:text-purple-300 transition">
            <i class="fa-solid fa-arrow-left text-purple-500"></i></i>
         </a>
 
-        <!-- Page Heading -->
+       
         <h1 class="text-lg sm:text-2xl font-semibold text-gray-100">
             Registerd Events
         </h1>
@@ -28,7 +28,6 @@
 
 
 
-    <!-- if you use a base layout -->
 
 
 
@@ -36,11 +35,12 @@
     <section class="min-h-screen bg-gray-900 text-gray-100 p-6">
     <div class="max-w-7xl mx-auto">
         
-        <!-- Grid Wrapper -->
+      
+        
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
             {% if events %}
                 {% for event in events %}
-                <!-- Card -->
+               
                 <div class="bg-gray-800 rounded-lg p-5 shadow hover:shadow-lg transition">
                     <div>
                         <img src="{{ event.img.url }}" alt="{{ event.name }}"

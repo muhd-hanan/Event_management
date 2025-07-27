@@ -15,20 +15,19 @@
 
     <header class="w-full bg-gray-800 shadow py-3 flex items-center justify-center relative">
 
-        <!-- Back Button -->
+        
        <a href="{% url 'users:index'  %}"
             class="absolute left-3 sm:left-10 flex items-center text-purple-400 hover:text-purple-300 transition">
            <i class="fa-solid fa-arrow-left text-purple-500"></i></i>
         </a>
 
-        <!-- Page Heading -->
+        
         <h1 class="text-lg sm:text-2xl font-semibold text-gray-100">
            Manage Events
         </h1>
     </header>
     <section class="min-h-screen bg-gray-900 text-gray-100 p-6">
         <div class="max-w-7xl mx-auto">
-            <!-- Heading -->
 
             <h2 class="text-xl text-white font-semibold">My Events</h2>
 
@@ -37,7 +36,7 @@
 
 
 
-            <!-- Event Cards -->
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
 
                 {% for event in events %}
